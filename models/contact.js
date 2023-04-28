@@ -38,6 +38,7 @@ const addSchema = Joi.object({
 });
 
 contactSchema.post("save", handleMongooseError);
+
 const Contact = model("contact", contactSchema);
 
 const updateFavoriteSchema = Joi.object({
