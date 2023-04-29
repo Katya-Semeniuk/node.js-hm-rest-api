@@ -2,12 +2,6 @@ const bcrypt = require("bcrypt");
 const { User } = require("../../models/user");
 const { HttpError } = require("../../helpers");
 
-// const createHashPassword = async (password) => {
-//   const result = await bcrypt.hash(password, 10);
-//   console.log(result);
-//   const compareResult = await bcrypt.compare(password, result);
-// };
-
 const register = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
