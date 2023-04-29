@@ -5,8 +5,6 @@ const { contacts: ctrl } = require("../../controllers");
 
 const { validateBody, isValidId } = require("../../middlewares");
 const { schemas } = require("../../models/contact");
-console.log("ctrlWrapper", ctrlWrapper);
-console.log("ctrl.getAll", ctrl.getAll);
 
 router.get("/", ctrlWrapper(ctrl.getAll));
 
