@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const { User } = require("../../models/user");
+const { User } = require("../../models");
 const { HttpError } = require("../../helpers");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -7,13 +7,21 @@ const { SECRET_KEY } = process.env;
 
 const login = async (req, res) => {
   const { email, password } = req.body;
-  const user = User.findOne({ email });
+  const user = await User.findOne({ email });
+
+  // const comparedPassword = bcrypt.compare(password, user.password);
+
+  // if (!user || !comparedPassword) {
+  //   throw HttpError(401, "Email or password is wrong");
+  // }
   if (!user) {
-    HttpError(401, "Email or password is wrong");
+    throw HttpError(401, "Email or password is wrong");
   }
-  const comparedPassword = bcrypt.compare(password, user.password);
+  const comparedPassword = await bcrypt.compare(password, user.password);
+
   if (!comparedPassword) {
-    HttpError(401, "Email or password is wrong");
+    console.log("Error comparedPassword");
+    throw HttpError(401, "Email or password is wrong");
   }
 
   const payload = {
@@ -21,17 +29,11 @@ const login = async (req, res) => {
   };
 
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
-  //   try {
-  //     const { id } = jwt.verify(token, SECRET_KEY);
-  //     console.log(id);
-  //   } catch (err) {
-  //     console.log(err.message);
-  //   }
+  await User.findByIdAndUpdate(user._id, { token });
 
-  // const decodeToken = jwt.decode(token);
   res.status(200).json({
     token,
-    // data: { email: user.email, subscription: user.subscription },
+    user: { email: user.email, subscription: user.subscription },
   });
 };
 

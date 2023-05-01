@@ -22,6 +22,7 @@ const contactSchema = new Schema(
     owner: {
       type: Schema.Types.ObjectId,
       ref: "user",
+      required: true,
     },
   },
   { versionKey: false, timestamps: true }
@@ -29,9 +30,7 @@ const contactSchema = new Schema(
 
 const addSchema = Joi.object({
   name: Joi.string().required(),
-  email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
-    .required(),
+  email: Joi.string().required(),
   phone: Joi.string()
     .messages({
       "string.pattern.base":
@@ -39,7 +38,6 @@ const addSchema = Joi.object({
     })
     .required(),
   favorite: Joi.boolean(),
-  owner: Joi.string().required(),
 });
 
 contactSchema.post("save", handleMongooseError);
