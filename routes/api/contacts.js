@@ -40,4 +40,6 @@ router.patch(
   ctrlWrapper(ctrl.updateFavorite)
 );
 
+router.get("/", authenticate, ctrlWrapper(ctrl.filteredFavorite));
+
 module.exports = router;
