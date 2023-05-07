@@ -6,6 +6,12 @@ const { contacts: ctrl } = require("../../controllers");
 const { validateBody, isValidId, authenticate } = require("../../middlewares");
 const { schemas } = require("../../models/contact");
 
+router.get(
+  "contacts?favorite=true",
+  authenticate,
+  ctrlWrapper(ctrl.filteredFavorite)
+);
+
 router.get("/", authenticate, ctrlWrapper(ctrl.getAll));
 
 router.get("/:contactId", authenticate, isValidId, ctrlWrapper(ctrl.getById));
@@ -40,6 +46,5 @@ router.patch(
   ctrlWrapper(ctrl.updateFavorite)
 );
 
-router.get("/", authenticate, ctrlWrapper(ctrl.filteredFavorite));
-
+// router.get("/", authenticate, ctrlWrapper(ctrl.filteredFavorite));
 module.exports = router;
