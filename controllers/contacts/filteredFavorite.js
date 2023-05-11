@@ -12,12 +12,8 @@ const filteredFavorite = async (req, res) => {
   }
 
   const filteredFavoriteContacts = result.filter(
-    (contact) => contact.favorite === (favorite === "true")
+    (contact) => contact.favorite === favorite
   );
-
-  //   const filteredFavoriteContacts = result.map(
-  //     (contact) => contact.favorite === (favorite === "true")
-  //   );
 
   console.log(filteredFavoriteContacts);
 
