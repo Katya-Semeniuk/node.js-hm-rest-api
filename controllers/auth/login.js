@@ -11,6 +11,10 @@ const login = async (req, res) => {
 
   const comparedPassword = bcrypt.compare(password, user.password);
 
+  if (!user.verify) {
+    throw HttpError(404, "Email is not verified");
+  }
+
   if (!user || !comparedPassword) {
     throw HttpError(401, "Email or password is wrong");
   }
