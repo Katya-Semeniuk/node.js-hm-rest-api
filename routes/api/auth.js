@@ -19,4 +19,9 @@ router.post(
 
 router.post("/logout", authenticate, ctrlWrapper(ctrl.logout));
 
+router.post(
+  "/verify",
+  validateBody(schemas.emailSchema),
+  ctrlWrapper(ctrl.verify)
+);
 module.exports = router;
